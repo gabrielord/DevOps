@@ -18,7 +18,9 @@ type ClassNames =
   | "mainFoodItems"
   | "closeContainer"
   | "itemContainer"
-  | "buttonContainer";
+  | "buttonContainer"
+  | "resetButtonContainer"; // Adicionar nova classe para o botão de reset
+
 interface OwnProps {
   classes: Record<ClassNames, string>;
   onClose?: () => void;
@@ -41,6 +43,10 @@ export const CalculatorModal: React.FC<Props> = (props: Props) => {
       ...values,
       [itemName]: { value, kcal: value * itemKcal }
     });
+  };
+
+  const handleReset = () => {
+    setValues({});
   };
 
   const result = Object.keys(values).reduce((acc: number, itemName: string) => {
@@ -70,6 +76,12 @@ export const CalculatorModal: React.FC<Props> = (props: Props) => {
         <div className={classes.buttonContainer}>
           <Button variant="contained">{result} Kcal</Button>
         </div>
+      {/* Adiciona o botão de reset */}
+      <div className={classes.resetButtonContainer}>
+          <Button variant="contained" color="secondary" onClick={handleReset}>
+            Reset
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -95,6 +107,11 @@ const styles = (theme: CustomTheme): Record<ClassNames, CSSProperties> => ({
     display: "flex",
     justifyContent: "center",
     marginBottom: theme.spacing(3)
+  },
+  resetButtonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: theme.spacing(2) // Adiciona espaçamento no botão reset
   }
 });
 
